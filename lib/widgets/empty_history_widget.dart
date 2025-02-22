@@ -31,7 +31,7 @@ class EmptyHistoryWidget extends StatelessWidget {
           child: const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              'No Crop History found!',
+              'No chat found, start a new chat!',
             ),
           ),
         ),

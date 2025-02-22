@@ -19,7 +19,7 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         centerTitle: true,
-        title: const Text('Crop history'),
+        title: const Text('Chat history'),
       ),
       body: ValueListenableBuilder<Box<ChatHistory>>(
         valueListenable: Boxes.getChatHistory().listenable(),

@@ -55,7 +55,7 @@ class _ChatScreenState extends State<ChatScreen> {
           appBar: AppBar(
             backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
             centerTitle: true,
-            title: const Text('Upload Plant Image'),
+            title: const Text('Chat with Gemini'),
             actions: [
               if (chatProvider.inChatMessages.isNotEmpty)
                 Padding(
@@ -67,8 +67,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         // show my animated dialog to start new chat
                         showMyAnimatedDialog(
                           context: context,
-                          title: 'Upload New Image',
-                          content: 'Are you sure?',
+                          title: 'Start New Chat',
+                          content: 'Are you sure you want to start a new chat?',
                           actionText: 'Yes',
                           onActionPressed: (value) async {
                             if (value) {
@@ -101,11 +101,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
 
                   // input field
-                  chatProvider.inChatMessages.isEmpty
-                      ? BottomChatField(
-                          chatProvider: chatProvider,
-                        )
-                      : SizedBox()
+                  BottomChatField(
+                    chatProvider: chatProvider,
+                  )
                 ],
               ),
             ),

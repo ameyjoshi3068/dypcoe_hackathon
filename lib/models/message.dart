@@ -1,6 +1,7 @@
 class Message {
   String messageId;
   String chatId;
+  Role role;
   StringBuffer message;
   List<String> imagesUrls;
   DateTime timeSent;
@@ -9,6 +10,7 @@ class Message {
   Message({
     required this.messageId,
     required this.chatId,
+    required this.role,
     required this.message,
     required this.imagesUrls,
     required this.timeSent,
@@ -19,6 +21,7 @@ class Message {
     return {
       'messageId': messageId,
       'chatId': chatId,
+      'role': role.index,
       'message': message.toString(),
       'imagesUrls': imagesUrls,
       'timeSent': timeSent.toIso8601String(),
@@ -30,6 +33,7 @@ class Message {
     return Message(
       messageId: map['messageId'],
       chatId: map['chatId'],
+      role: Role.values[map['role']],
       message: StringBuffer(map['message']),
       imagesUrls: List<String>.from(map['imagesUrls']),
       timeSent: DateTime.parse(map['timeSent']),
@@ -40,6 +44,7 @@ class Message {
   Message copyWith({
     String? messageId,
     String? chatId,
+    Role? role,
     StringBuffer? message,
     List<String>? imagesUrls,
     DateTime? timeSent,
@@ -47,6 +52,7 @@ class Message {
     return Message(
       messageId: messageId ?? this.messageId,
       chatId: chatId ?? this.chatId,
+      role: role ?? this.role,
       message: message ?? this.message,
       imagesUrls: imagesUrls ?? this.imagesUrls,
       timeSent: timeSent ?? this.timeSent,
@@ -64,4 +70,9 @@ class Message {
   int get hashCode {
     return messageId.hashCode;
   }
+}
+
+enum Role {
+  user,
+  assistant,
 }

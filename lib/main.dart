@@ -1,4 +1,3 @@
-import 'package:chatbotapp/providers/community_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:chatbotapp/themes/my_theme.dart';
 import 'package:chatbotapp/providers/chat_provider.dart';
@@ -15,7 +14,6 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => ChatProvider()),
       ChangeNotifierProvider(create: (context) => SettingsProvider()),
-      ChangeNotifierProvider(create: (_) => CommunityProvider()),
     ],
     child: const MyApp(),
   ));
@@ -43,7 +41,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter App',
+      title: 'Flutter Chat Bot App',
       theme:
           context.watch<SettingsProvider>().isDarkMode ? darkTheme : lightTheme,
       debugShowCheckedModeBanner: false,

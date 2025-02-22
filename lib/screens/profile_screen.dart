@@ -21,7 +21,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File? file;
   String userImage = '';
-  String userName = 'Amey';
+  String userName = 'Aayush';
   final ImagePicker _picker = ImagePicker();
 
   // pick an image
@@ -122,6 +122,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if (box.isEmpty) {
                     return Column(
                       children: [
+                        // ai voice
+                        SettingsTile(
+                          // icon: Icons.mic,
+                          icon: CupertinoIcons.mic,
+                          title: 'Enable AI voice',
+                          value: false,
+                          onChanged: (value) {
+                            final settingProvider =
+                                context.read<SettingsProvider>();
+                            settingProvider.toggleSpeak(
+                              value: value,
+                            );
+                          },
+                        ),
+
                         const SizedBox(height: 10.0),
 
                         // Theme
@@ -144,11 +159,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     final settings = box.getAt(0);
                     return Column(
                       children: [
+                        // ai voice
+                        SettingsTile(
+                            icon: CupertinoIcons.mic,
+                            title: 'Enable AI voice',
+                            value: settings!.shouldSpeak,
+                            onChanged: (value) {
+                              final settingProvider =
+                                  context.read<SettingsProvider>();
+                              settingProvider.toggleSpeak(
+                                value: value,
+                              );
+                            }),
+
                         const SizedBox(height: 10.0),
 
                         // theme
                         SettingsTile(
-                          icon: settings!.isDarkTheme
+                          icon: settings.isDarkTheme
                               ? CupertinoIcons.moon_fill
                               : CupertinoIcons.sun_max_fill,
                           title: 'Theme',

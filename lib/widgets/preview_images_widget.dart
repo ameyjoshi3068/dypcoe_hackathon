@@ -25,13 +25,18 @@ class PreviewImagesWidget extends StatelessWidget {
         return Padding(
           padding: padding,
           child: SizedBox(
-            height: 300,
+            height: 80,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: messageToShow!.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.fromLTRB(
+                    4.0,
+                    8.0,
+                    4.0,
+                    0.0,
+                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
                     child: Image.file(
@@ -40,8 +45,8 @@ class PreviewImagesWidget extends StatelessWidget {
                             ? message!.imagesUrls[index]
                             : chatProvider.imagesFileList![index].path,
                       ),
-                      height: 400,
-                      width: 300,
+                      height: 80,
+                      width: 80,
                       fit: BoxFit.cover,
                     ),
                   ),

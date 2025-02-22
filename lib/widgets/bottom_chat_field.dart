@@ -20,47 +20,18 @@ class BottomChatField extends StatefulWidget {
 }
 
 class _BottomChatFieldState extends State<BottomChatField> {
+  // controller for the input field
+  final TextEditingController textController = TextEditingController();
+
   // focus node for the input field
   final FocusNode textFieldFocus = FocusNode();
 
   // initialize image picker
   final ImagePicker _picker = ImagePicker();
 
-  final List<Map<String, String>> crops = [
-    {"name": "Rice"},
-    {"name": "Wheat"},
-    {"name": "Maize"},
-    {"name": "Barley"},
-    {"name": "Lentils"},
-    {"name": "Beans"},
-    {"name": "Soybean"},
-    {"name": "Groundnut"},
-    {"name": "Sunflower"},
-    {"name": "Tomato"},
-    {"name": "Potato"},
-    {"name": "Onion"},
-    {"name": "Brinjal (Eggplant)"},
-    {"name": "Mango"},
-    {"name": "Banana"},
-    {"name": "Apple"},
-    {"name": "Grapes"},
-    {"name": "Cotton"},
-    {"name": "Sugarcane"},
-    {"name": "Coffee"},
-  ];
-
-  final List<String> cropItems = [
-    'Crop',
-    'Wheat',
-    'Rice',
-    'Corn',
-    // Add other crops as needed
-  ];
-
-  String? selectedCrop;
-
   @override
   void dispose() {
+    textController.dispose();
     textFieldFocus.dispose();
     super.dispose();
   }
@@ -78,6 +49,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
     } catch (e) {
       log('error : $e');
     } finally {
+      textController.clear();
       widget.chatProvider.setImagesFileList(listValue: []);
       textFieldFocus.unfocus();
     }
@@ -112,70 +84,71 @@ class _BottomChatFieldState extends State<BottomChatField> {
       ),
       child: Column(
         children: [
-          IconButton(
-            onPressed: () {
-              if (hasImages) {
-                // show the delete dialog
-                showMyAnimatedDialog(
-                    context: context,
-                    title: 'Delete Images',
-                    content: 'Are you sure you want to delete the images?',
-                    actionText: 'Delete',
-                    onActionPressed: (value) {
-                      if (value) {
-                        widget.chatProvider.setImagesFileList(
-                          listValue: [],
-                        );
-                      }
-                    });
-              } else {
-                pickImage();
-              }
-            },
-            icon: Icon(
-              hasImages ? CupertinoIcons.delete : CupertinoIcons.photo,
-            ),
-          ),
           if (hasImages) const PreviewImagesWidget(),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              IconButton(
+                onPressed: () {
+                  if (hasImages) {
+                    // show the delete dialog
+                    showMyAnimatedDialog(
+                        context: context,
+                        title: 'Delete Images',
+                        content: 'Are you sure you want to delete the images?',
+                        actionText: 'Delete',
+                        onActionPressed: (value) {
+                          if (value) {
+                            widget.chatProvider.setImagesFileList(
+                              listValue: [],
+                            );
+                          }
+                        });
+                  } else {
+                    pickImage();
+                  }
+                },
+                icon: Icon(
+                  hasImages ? CupertinoIcons.delete : CupertinoIcons.photo,
+                ),
+              ),
               const SizedBox(
                 width: 5,
               ),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: selectedCrop,
-                      hint: const Text('Select Crop'),
-                      items: cropItems.map((String crop) {
-                        return DropdownMenuItem<String>(
-                          value: crop,
-                          child: Text(crop),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedCrop = value;
-                        });
-                      },
-                    ),
-                  ),
+                child: TextField(
+                  focusNode: textFieldFocus,
+                  controller: textController,
+                  textInputAction: TextInputAction.send,
+                  onSubmitted: widget.chatProvider.isLoading
+                      ? null
+                      : (String value) {
+                          if (value.isNotEmpty) {
+                            // send the message
+                            sendChatMessage(
+                              message: textController.text,
+                              chatProvider: widget.chatProvider,
+                              isTextOnly: hasImages ? false : true,
+                            );
+                          }
+                        },
+                  decoration: InputDecoration.collapsed(
+                      hintText: 'Enter a prompt...',
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(30),
+                      )),
                 ),
               ),
               GestureDetector(
                 onTap: widget.chatProvider.isLoading
                     ? null
                     : () {
-                        if (selectedCrop != null && hasImages) {
-                          log("Request sent");
+                        if (textController.text.isNotEmpty) {
                           // send the message
                           sendChatMessage(
-                            message: selectedCrop!,
+                            message: textController.text,
                             chatProvider: widget.chatProvider,
-                            isTextOnly: false,
+                            isTextOnly: hasImages ? false : true,
                           );
                         }
                       },

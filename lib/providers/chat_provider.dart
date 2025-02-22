@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
-import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,12 +11,10 @@ import 'package:chatbotapp/hive/settings.dart';
 import 'package:chatbotapp/hive/user_model.dart';
 import 'package:chatbotapp/models/message.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:uuid/uuid.dart';
-import 'package:http/http.dart' as http;
 
 class ChatProvider extends ChangeNotifier {
   // list of messages
@@ -36,6 +32,18 @@ class ChatProvider extends ChangeNotifier {
   // cuttent chatId
   String _currentChatId = '';
 
+  // initialize generative model
+  GenerativeModel? _model;
+
+  // itialize text model
+  GenerativeModel? _textModel;
+
+  // initialize vision model
+  GenerativeModel? _visionModel;
+
+  // current mode
+  String _modelType = 'gemini-pro';
+
   // loading bool
   bool _isLoading = false;
 
@@ -49,6 +57,14 @@ class ChatProvider extends ChangeNotifier {
   int get currentIndex => _currentIndex;
 
   String get currentChatId => _currentChatId;
+
+  GenerativeModel? get model => _model;
+
+  GenerativeModel? get textModel => _textModel;
+
+  GenerativeModel? get visionModel => _visionModel;
+
+  String get modelType => _modelType;
 
   bool get isLoading => _isLoading;
 
@@ -90,6 +106,31 @@ class ChatProvider extends ChangeNotifier {
   // set file list
   void setImagesFileList({required List<XFile> listValue}) {
     _imagesFileList = listValue;
+    notifyListeners();
+  }
+
+  // set the current model
+  String setCurrentModel({required String newModel}) {
+    _modelType = newModel;
+    notifyListeners();
+    return newModel;
+  }
+
+  // function to set the model based on bool - isTextOnly
+  Future<void> setModel({required bool isTextOnly}) async {
+    if (isTextOnly) {
+      _model = _textModel ??
+          GenerativeModel(
+            model: setCurrentModel(newModel: 'gemini-pro'),
+            apiKey: ApiService.apiKey,
+          );
+    } else {
+      _model = _visionModel ??
+          GenerativeModel(
+            model: setCurrentModel(newModel: 'gemini-pro-vision'),
+            apiKey: ApiService.apiKey,
+          );
+    }
     notifyListeners();
   }
 
@@ -179,6 +220,9 @@ class ChatProvider extends ChangeNotifier {
     required String message,
     required bool isTextOnly,
   }) async {
+    // set the model
+    await setModel(isTextOnly: isTextOnly);
+
     // set loading
     setLoading(value: true);
 
@@ -211,6 +255,7 @@ class ChatProvider extends ChangeNotifier {
     final userMessage = Message(
       messageId: userMessageId.toString(),
       chatId: chatId,
+      role: Role.user,
       message: StringBuffer(message),
       imagesUrls: imagesUrls,
       timeSent: DateTime.now(),
@@ -224,103 +269,81 @@ class ChatProvider extends ChangeNotifier {
       setCurrentChatId(newChatId: chatId);
     }
 
-    try {
-      // Future<http.Response> response = http.post(
-      //   Uri.parse('http://localhost/upload'),
-      //   headers: <String, String>{
-      //     'Content-Type': 'multipart/form-data; charset=UTF-8',
-      //   },
-      //   body: jsonEncode(<String, String>{'file': title}),
-      // );
-      final uri = Uri.parse('http://192.168.137.10:4000/upload');
-      var request = http.MultipartRequest('POST', uri);
-      request.files.add(await http.MultipartFile.fromPath('file', imagesUrls[0],
-          contentType: MediaType('image', 'jpeg')));
-
-      request
-          .send()
-          .then((result) async {
-            http.Response.fromStream(result).then((response) {
-              if (response.statusCode == 200) {
-                print("Uploaded! ");
-                print('response.body ' + response.body);
-              } else {
-                print('response.body ' + response.body);
-              }
-
-              final Message assistantMessage1 = Message(
-                  messageId: (userMessage.messageId + '1'),
-                  chatId: chatId,
-                  message: StringBuffer(response.body),
-                  imagesUrls: imagesUrls,
-                  timeSent: DateTime.now());
-              saveMessagesToDB(
-                chatID: chatId,
-                userMessage: userMessage,
-                assistantMessage: assistantMessage1,
-                messagesBox: messagesBox,
-              );
-            });
-          })
-          .catchError((err) => print('error : ' + err.toString()))
-          .whenComplete(() {});
-    } catch (e) {
-      log(e.toString());
-    }
-// // ? change is here
-//     // send the message to the model and wait for the response
-//     await sendMessageAndWaitForResponse(
-//       message: message,
-//       chatId: chatId,
-//       isTextOnly: isTextOnly,
-//       history: history,
-//       userMessage: userMessage,
-//       modelMessageId: assistantMessageId.toString(),
-//       messagesBox: messagesBox,
-//     );
+// ? change is here
+    // send the message to the model and wait for the response
+    await sendMessageAndWaitForResponse(
+      message: message,
+      chatId: chatId,
+      isTextOnly: isTextOnly,
+      history: history,
+      userMessage: userMessage,
+      modelMessageId: assistantMessageId.toString(),
+      messagesBox: messagesBox,
+    );
   }
 
-  // // send message to the model and wait for the response
-  // Future<void> sendMessageAndWaitForResponse({
-  //   required String message,
-  //   required String chatId,
-  //   required bool isTextOnly,
-  //   required List<Content> history,
-  //   required Message userMessage,
-  //   required String modelMessageId, // ? Add this line
-  //   required Box messagesBox,
-  // }) async {
-  //   // get content
-  //   final content = await getContent(
-  //     message: message,
-  //     isTextOnly: isTextOnly,
-  //   );
+  // send message to the model and wait for the response
+  Future<void> sendMessageAndWaitForResponse({
+    required String message,
+    required String chatId,
+    required bool isTextOnly,
+    required List<Content> history,
+    required Message userMessage,
+    required String modelMessageId, // ? Add this line
+    required Box messagesBox,
+  }) async {
+    // start the chat session - only send history is its text-only
+    final chatSession = _model!.startChat(
+      history: history.isEmpty || !isTextOnly ? null : history,
+    );
 
-  //   // wait for stream response
-  //   chatSession.sendMessageStream(content).asyncMap((event) {
-  //     return event;
-  //   }).listen((event) {
-  //     _inChatMessages
-  //         .firstWhere((element) =>
-  //             element.messageId == assistantMessage.messageId &&
-  //             element.role.name == Role.assistant.name)
-  //         .message
-  //         .write(event.text);
-  //     log('event: ${event.text}');
-  //     notifyListeners();
-  //   }, onDone: () async {
-  //     log('Message received');
-  //     // save message to hive db
-  //     await
-  //     // set loading to false
-  //     setLoading(value: false);
-  //   }).onError((erro, stackTrace) {
-  //     log('error: $erro');
-  //     // set loading
-  //     setLoading(value: false);
-  //   }
-  //   );
-  // }
+    // get content
+    final content = await getContent(
+      message: message,
+      isTextOnly: isTextOnly,
+    );
+
+    // assistant message
+    final assistantMessage = userMessage.copyWith(
+      messageId: modelMessageId,
+      role: Role.assistant,
+      message: StringBuffer(),
+      timeSent: DateTime.now(),
+    );
+
+    // add this message to the list on inChatMessages
+    _inChatMessages.add(assistantMessage);
+    notifyListeners();
+
+    // wait for stream response
+    chatSession.sendMessageStream(content).asyncMap((event) {
+      return event;
+    }).listen((event) {
+      _inChatMessages
+          .firstWhere((element) =>
+              element.messageId == assistantMessage.messageId &&
+              element.role.name == Role.assistant.name)
+          .message
+          .write(event.text);
+      log('event: ${event.text}');
+      notifyListeners();
+    }, onDone: () async {
+      log('stream done');
+      // save message to hive db
+      await saveMessagesToDB(
+        chatID: chatId,
+        userMessage: userMessage,
+        assistantMessage: assistantMessage,
+        messagesBox: messagesBox,
+      );
+      // set loading to false
+      setLoading(value: false);
+    }).onError((erro, stackTrace) {
+      log('error: $erro');
+      // set loading
+      setLoading(value: false);
+    });
+  }
 
   // save messages to hive db
   Future<void> saveMessagesToDB({
@@ -395,7 +418,11 @@ class ChatProvider extends ChangeNotifier {
       await setInChatMessages(chatId: chatId);
 
       for (var message in inChatMessages) {
-        history.add(Content.text(message.message.toString()));
+        if (message.role == Role.user) {
+          history.add(Content.text(message.message.toString()));
+        } else {
+          history.add(Content.model([TextPart(message.message.toString())]));
+        }
       }
     }
 
