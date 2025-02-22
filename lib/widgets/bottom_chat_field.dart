@@ -49,6 +49,16 @@ class _BottomChatFieldState extends State<BottomChatField> {
     {"name": "Coffee"},
   ];
 
+  final List<String> cropItems = [
+    'Crop',
+    'Wheat',
+    'Rice',
+    'Corn',
+    // Add other crops as needed
+  ];
+
+  String? selectedCrop;
+
   @override
   void dispose() {
     textFieldFocus.dispose();
@@ -91,7 +101,6 @@ class _BottomChatFieldState extends State<BottomChatField> {
   Widget build(BuildContext context) {
     bool hasImages = widget.chatProvider.imagesFileList != null &&
         widget.chatProvider.imagesFileList!.isNotEmpty;
-    String? selectedCrop;
 
     return Container(
       decoration: BoxDecoration(
@@ -140,13 +149,11 @@ class _BottomChatFieldState extends State<BottomChatField> {
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       value: selectedCrop,
-                      hint: const Text("Select a Crop"),
-                      isExpanded: true,
-                      icon: const Icon(Icons.arrow_drop_down),
-                      items: crops.map((crop) {
+                      hint: const Text('Select Crop'),
+                      items: cropItems.map((String crop) {
                         return DropdownMenuItem<String>(
-                          value: crop["name"],
-                          child: Text(crop["name"]!),
+                          value: crop,
+                          child: Text(crop),
                         );
                       }).toList(),
                       onChanged: (value) {
@@ -163,6 +170,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
                     ? null
                     : () {
                         if (selectedCrop != null && hasImages) {
+                          log("Request sent");
                           // send the message
                           sendChatMessage(
                             message: selectedCrop!,

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,10 +13,12 @@ import 'package:chatbotapp/hive/settings.dart';
 import 'package:chatbotapp/hive/user_model.dart';
 import 'package:chatbotapp/models/message.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 class ChatProvider extends ChangeNotifier {
   // list of messages
@@ -220,64 +224,103 @@ class ChatProvider extends ChangeNotifier {
       setCurrentChatId(newChatId: chatId);
     }
 
-// ? change is here
-    // send the message to the model and wait for the response
-    await sendMessageAndWaitForResponse(
-      message: message,
-      chatId: chatId,
-      isTextOnly: isTextOnly,
-      history: history,
-      userMessage: userMessage,
-      modelMessageId: assistantMessageId.toString(),
-      messagesBox: messagesBox,
-    );
+    try {
+      // Future<http.Response> response = http.post(
+      //   Uri.parse('http://localhost/upload'),
+      //   headers: <String, String>{
+      //     'Content-Type': 'multipart/form-data; charset=UTF-8',
+      //   },
+      //   body: jsonEncode(<String, String>{'file': title}),
+      // );
+      final uri = Uri.parse('http://192.168.137.10:4000/upload');
+      var request = http.MultipartRequest('POST', uri);
+      request.files.add(await http.MultipartFile.fromPath('file', imagesUrls[0],
+          contentType: MediaType('image', 'jpeg')));
+
+      request
+          .send()
+          .then((result) async {
+            http.Response.fromStream(result).then((response) {
+              if (response.statusCode == 200) {
+                print("Uploaded! ");
+                print('response.body ' + response.body);
+              } else {
+                print('response.body ' + response.body);
+              }
+
+              final Message assistantMessage1 = Message(
+                  messageId: (userMessage.messageId + '1'),
+                  chatId: chatId,
+                  message: StringBuffer(response.body),
+                  imagesUrls: imagesUrls,
+                  timeSent: DateTime.now());
+              saveMessagesToDB(
+                chatID: chatId,
+                userMessage: userMessage,
+                assistantMessage: assistantMessage1,
+                messagesBox: messagesBox,
+              );
+            });
+          })
+          .catchError((err) => print('error : ' + err.toString()))
+          .whenComplete(() {});
+    } catch (e) {
+      log(e.toString());
+    }
+// // ? change is here
+//     // send the message to the model and wait for the response
+//     await sendMessageAndWaitForResponse(
+//       message: message,
+//       chatId: chatId,
+//       isTextOnly: isTextOnly,
+//       history: history,
+//       userMessage: userMessage,
+//       modelMessageId: assistantMessageId.toString(),
+//       messagesBox: messagesBox,
+//     );
   }
 
-  // send message to the model and wait for the response
-  Future<void> sendMessageAndWaitForResponse({
-    required String message,
-    required String chatId,
-    required bool isTextOnly,
-    required List<Content> history,
-    required Message userMessage,
-    required String modelMessageId, // ? Add this line
-    required Box messagesBox,
-  }) async {
-    // get content
-    final content = await getContent(
-      message: message,
-      isTextOnly: isTextOnly,
-    );
+  // // send message to the model and wait for the response
+  // Future<void> sendMessageAndWaitForResponse({
+  //   required String message,
+  //   required String chatId,
+  //   required bool isTextOnly,
+  //   required List<Content> history,
+  //   required Message userMessage,
+  //   required String modelMessageId, // ? Add this line
+  //   required Box messagesBox,
+  // }) async {
+  //   // get content
+  //   final content = await getContent(
+  //     message: message,
+  //     isTextOnly: isTextOnly,
+  //   );
 
-    // // wait for stream response
-    // chatSession.sendMessageStream(content).asyncMap((event) {
-    //   return event;
-    // }).listen((event) {
-    //   _inChatMessages
-    //       .firstWhere((element) =>
-    //           element.messageId == assistantMessage.messageId &&
-    //           element.role.name == Role.assistant.name)
-    //       .message
-    //       .write(event.text);
-    //   log('event: ${event.text}');
-    //   notifyListeners();
-    // }, onDone: () async {
-    //   log('Message received');
-    //   // save message to hive db
-    //   await saveMessagesToDB(
-    //     chatID: chatId,
-    //     userMessage: userMessage,
-    //     messagesBox: messagesBox,
-    //   );
-    //   // set loading to false
-    //   setLoading(value: false);
-    // }).onError((erro, stackTrace) {
-    //   log('error: $erro');
-    //   // set loading
-    //   setLoading(value: false);
-    // }
-    // );
-  }
+  //   // wait for stream response
+  //   chatSession.sendMessageStream(content).asyncMap((event) {
+  //     return event;
+  //   }).listen((event) {
+  //     _inChatMessages
+  //         .firstWhere((element) =>
+  //             element.messageId == assistantMessage.messageId &&
+  //             element.role.name == Role.assistant.name)
+  //         .message
+  //         .write(event.text);
+  //     log('event: ${event.text}');
+  //     notifyListeners();
+  //   }, onDone: () async {
+  //     log('Message received');
+  //     // save message to hive db
+  //     await
+  //     // set loading to false
+  //     setLoading(value: false);
+  //   }).onError((erro, stackTrace) {
+  //     log('error: $erro');
+  //     // set loading
+  //     setLoading(value: false);
+  //   }
+  //   );
+  // }
 
   // save messages to hive db
   Future<void> saveMessagesToDB({

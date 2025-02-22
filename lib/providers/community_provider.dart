@@ -105,13 +105,28 @@ class CommunityProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  final Set<int> _likedMessages = {};
+  final Set<int> _dislikedMessages = {};
+
   void likeMessage(int index) {
+    if (_likedMessages.contains(index)) return; // Prevent multiple likes
+    if (_dislikedMessages.contains(index)) {
+      _dislikedMessages.remove(index);
+      _messages[index].dislikes--; // Remove previous dislike
+    }
     _messages[index].likes++;
+    _likedMessages.add(index);
     notifyListeners();
   }
 
   void dislikeMessage(int index) {
+    if (_dislikedMessages.contains(index)) return; // Prevent multiple dislikes
+    if (_likedMessages.contains(index)) {
+      _likedMessages.remove(index);
+      _messages[index].likes--; // Remove previous like
+    }
     _messages[index].dislikes++;
+    _dislikedMessages.add(index);
     notifyListeners();
   }
 }

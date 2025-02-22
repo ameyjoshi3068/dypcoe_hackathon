@@ -93,15 +93,6 @@ class _AddReportScreenState extends State<AddReportScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddReportScreen()),
-          );
-        },
-        child: Icon(Icons.add),
-      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:chatbotapp/screens/add_report_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/community_provider.dart';
@@ -107,6 +108,15 @@ class CommunityScreen extends StatelessWidget {
             ),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddReportScreen()),
+          );
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
