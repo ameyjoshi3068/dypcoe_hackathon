@@ -21,24 +21,30 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
         centerTitle: true,
         title: const Text('Chat history'),
       ),
-      body: ValueListenableBuilder<Box<ChatHistory>>(
-        valueListenable: Boxes.getChatHistory().listenable(),
-        builder: (context, box, _) {
-          final chatHistory =
-              box.values.toList().cast<ChatHistory>().reversed.toList();
-          return chatHistory.isEmpty
-              ? const EmptyHistoryWidget()
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                    itemCount: chatHistory.length,
-                    itemBuilder: (context, index) {
-                      final chat = chatHistory[index];
-                      return ChatHistoryWidget(chat: chat);
-                    },
-                  ),
-                );
-        },
+      body: Column(
+        children: [
+          Expanded(
+            child: ValueListenableBuilder<Box<ChatHistory>>(
+              valueListenable: Boxes.getChatHistory().listenable(),
+              builder: (context, box, _) {
+                final chatHistory =
+                    box.values.toList().cast<ChatHistory>().reversed.toList();
+                return chatHistory.isEmpty
+                    ? const EmptyHistoryWidget()
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView.builder(
+                          itemCount: chatHistory.length,
+                          itemBuilder: (context, index) {
+                            final chat = chatHistory[index];
+                            return ChatHistoryWidget(chat: chat);
+                          },
+                        ),
+                      );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
