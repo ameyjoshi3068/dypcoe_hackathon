@@ -416,7 +416,8 @@ class DiseaseDetailsWidget extends StatelessWidget {
       log("response sent");
 
       if (response.statusCode == 200) {
-        final result = jsonDecode(response.body);
+        var result = jsonDecode(response.body);
+        result = result["Dose prediction"];
         Navigator.pop(context); // Close the input dialog
         _showResultDialog(context, result);
       } else {
@@ -431,34 +432,38 @@ class DiseaseDetailsWidget extends StatelessWidget {
   }
 
   void _showResultDialog(BuildContext context, Map<String, dynamic> result) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Recommended Dose'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(Icons.science, color: Colors.blue),
-                title: const Text('Fertilizer'),
-                subtitle: Text(result['fertilizer']),
-              ),
-              ListTile(
-                leading: const Icon(Icons.scale, color: Colors.green),
-                title: const Text('Quantity'),
-                subtitle: Text(result['quantity']),
+    try {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Recommended Dose'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.science, color: Colors.blue),
+                  title: const Text('Fertilizer'),
+                  subtitle: Text(result['fertilizer']),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.scale, color: Colors.green),
+                  title: const Text('Quantity'),
+                  subtitle: Text(result['quantity']),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
+          );
+        },
+      );
+    } catch (e) {
+      log("Error in showing result dialog: $e");
+    }
   }
 }

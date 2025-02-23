@@ -1,0 +1,2 @@
+/home/amey/StudioProjects/dypcoe_hackathon/android/app/.cxx/RelWithDebInfo/36412z64/arm64-v8a/CMakeFiles/edit_cache.dir
+/home/amey/StudioProjects/dypcoe_hackathon/android/app/.cxx/RelWithDebInfo/36412z64/arm64-v8a/CMakeFiles/rebuild_cache.dir
