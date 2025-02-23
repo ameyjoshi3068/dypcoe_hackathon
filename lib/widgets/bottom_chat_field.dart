@@ -26,29 +26,6 @@ class _BottomChatFieldState extends State<BottomChatField> {
   // initialize image picker
   final ImagePicker _picker = ImagePicker();
 
-  final List<Map<String, String>> crops = [
-    {"name": "Rice"},
-    {"name": "Wheat"},
-    {"name": "Maize"},
-    {"name": "Barley"},
-    {"name": "Lentils"},
-    {"name": "Beans"},
-    {"name": "Soybean"},
-    {"name": "Groundnut"},
-    {"name": "Sunflower"},
-    {"name": "Tomato"},
-    {"name": "Potato"},
-    {"name": "Onion"},
-    {"name": "Brinjal (Eggplant)"},
-    {"name": "Mango"},
-    {"name": "Banana"},
-    {"name": "Apple"},
-    {"name": "Grapes"},
-    {"name": "Cotton"},
-    {"name": "Sugarcane"},
-    {"name": "Coffee"},
-  ];
-
   final List<String> cropItems = [
     "Rice",
     "Wheat",

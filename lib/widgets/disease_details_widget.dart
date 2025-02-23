@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import '../models/disease.dart';
 import 'package:http/http.dart' as http;
@@ -22,20 +23,28 @@ class DiseaseDetailsWidget extends StatelessWidget {
           children: [
             _buildDescription(),
             const SizedBox(height: 16),
-            _buildSeverity(),
+            disease.identification.name == 'Invalid Image'
+                ? const SizedBox.shrink()
+                : _buildSeverity(),
             const SizedBox(height: 16),
-            _buildSymptoms(),
+            disease.identification.name == 'Invalid Image'
+                ? const SizedBox.shrink()
+                : _buildSymptoms(),
             const SizedBox(height: 16),
-            _buildTreatments(),
+            disease.identification.name == 'Invalid Image'
+                ? const SizedBox.shrink()
+                : _buildTreatments(),
             const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: () => _showDosePredictionDialog(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 211, 236, 248),
-              ),
-              icon: const Icon(Icons.calculate),
-              label: const Text('Predict Dose'),
-            ),
+            disease.identification.name == 'Invalid Image'
+                ? const SizedBox.shrink()
+                : ElevatedButton.icon(
+                    onPressed: () => _showDosePredictionDialog(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 211, 236, 248),
+                    ),
+                    icon: const Icon(Icons.calculate),
+                    label: const Text('Predict Dose'),
+                  ),
           ],
         ),
       ),
@@ -237,9 +246,33 @@ class DiseaseDetailsWidget extends StatelessWidget {
   }
 
   void _showDosePredictionDialog(BuildContext context) {
+    String cropType = 'Rice'; // Default value
     String growthStage = 'Seedling';
     String fertilizerName = '';
     double plotSize = 1.0;
+
+    final List<String> cropTypes = [
+      "Rice",
+      "Wheat",
+      "Maize",
+      "Barley",
+      "Lentils",
+      "Beans",
+      "Soybean",
+      "Groundnut",
+      "Sunflower",
+      "Tomato",
+      "Potato",
+      "Onion",
+      "Brinjal (Eggplant)",
+      "Mango",
+      "Banana",
+      "Apple",
+      "Grapes",
+      "Cotton",
+      "Sugarcane",
+      "Coffee",
+    ];
 
     showDialog(
       context: context,
@@ -252,6 +285,22 @@ class DiseaseDetailsWidget extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    DropdownButtonFormField<String>(
+                      value: cropType,
+                      decoration: const InputDecoration(
+                        labelText: 'Crop Type',
+                      ),
+                      items: cropTypes
+                          .map((crop) => DropdownMenuItem(
+                                value: crop,
+                                child: Text(crop),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() => cropType = value!);
+                      },
+                    ),
+                    const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
                       value: growthStage,
                       decoration: const InputDecoration(
@@ -321,6 +370,7 @@ class DiseaseDetailsWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => _predictDose(
                     context,
+                    cropType,
                     growthStage,
                     fertilizerName,
                     plotSize,
@@ -337,21 +387,33 @@ class DiseaseDetailsWidget extends StatelessWidget {
 
   Future<void> _predictDose(
     BuildContext context,
+    String cropType,
     String growthStage,
     String fertilizerName,
     double plotSize,
   ) async {
     try {
+      log("sending request");
       final response = await http.post(
         Uri.parse('http://192.168.137.10:5000/doseprediction'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'crop_type': disease.identification.name.toLowerCase(),
+          'crop_type': cropType.toLowerCase(),
           'growth_stage': growthStage,
           'fertilizer_name': fertilizerName,
           'plot_size': '$plotSize Acres',
         }),
       );
+      log("Request body: ${jsonEncode({
+            'crop_type': cropType.toLowerCase(),
+            'growth_stage': growthStage,
+            'fertilizer_name': fertilizerName,
+            'plot_size': '$plotSize Acres',
+          })}");
+
+      log("response: ${response.body}");
+
+      log("response sent");
 
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
@@ -364,6 +426,7 @@ class DiseaseDetailsWidget extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.toString()}')),
       );
+      log("error: $e");
     }
   }
 

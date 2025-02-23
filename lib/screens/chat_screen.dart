@@ -29,38 +29,6 @@ class _ChatScreenState extends State<ChatScreen> {
     return Consumer<ChatProvider>(
       builder: (context, chatProvider, child) {
         return Scaffold(
-          // appBar: AppBar(
-          //   backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          //   centerTitle: true,
-          // title: const Text('Upload Plant Image'),
-          //   actions: [
-          //     if (chatProvider.inChatMessages.isNotEmpty)
-          //       Padding(
-          //         padding: const EdgeInsets.all(8.0),
-          //         child: CircleAvatar(
-          //           child: IconButton(
-          //             icon: const Icon(CupertinoIcons.add),
-          //             onPressed: () async {
-          //               // show my animated dialog to start new chat
-          //               showMyAnimatedDialog(
-          //                 context: context,
-          //                 title: 'Upload New Image',
-          //                 content: 'Are you sure?',
-          //                 actionText: 'Yes',
-          //                 onActionPressed: (value) async {
-          //                   if (value) {
-          //                     // prepare chat room
-          //                     await chatProvider.prepareChatRoom(
-          //                         isNewChat: true, chatID: '');
-          //                   }
-          //                 },
-          //               );
-          //             },
-          //           ),
-          //         ),
-          //       )
-          //   ],
-          // ),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -90,37 +58,43 @@ class _ChatScreenState extends State<ChatScreen> {
                                   padding: EdgeInsets.symmetric(horizontal: 16),
                                   itemCount: chatProvider.newsItems.length,
                                   itemBuilder: (context, index) {
-                                    final newsItem =
-                                        chatProvider.newsItems[index];
-                                    return Card(
-                                      margin: EdgeInsets.only(bottom: 16),
-                                      child: ListTile(
-                                        title: Text(
-                                          newsItem['title'] ?? 'No title',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
+                                    try {
+                                      final newsItem =
+                                          chatProvider.newsItems[index];
+                                      return Card(
+                                        margin: EdgeInsets.only(bottom: 16),
+                                        child: ListTile(
+                                          title: Text(
+                                            newsItem['title'] ?? 'No title',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
-                                        ),
-                                        subtitle: Text(
-                                          'Published: ${newsItem['published'] ?? 'No date'}',
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                        onTap: () async {
-                                          final url = newsItem['link'];
-                                          if (url != null) {
-                                            try {
-                                              Uri uri = Uri.parse(url);
-                                              if (await canLaunchUrl(uri)) {
-                                                await launchUrl(uri);
+                                          subtitle: Text(
+                                            'Published: ${newsItem['published'] ?? 'No date'}',
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                          onTap: () async {
+                                            final url = newsItem['link'];
+                                            if (url != null) {
+                                              try {
+                                                Uri uri = Uri.parse(url);
+                                                if (await canLaunchUrl(uri)) {
+                                                  await launchUrl(uri);
+                                                }
+                                              } catch (e) {
+                                                print(
+                                                    'Error launching URL: $e');
                                               }
-                                            } catch (e) {
-                                              print('Error launching URL: $e');
                                             }
-                                          }
-                                        },
-                                      ),
-                                    );
+                                          },
+                                        ),
+                                      );
+                                    } catch (e) {
+                                      print('Error building news item: $e');
+                                      return Container();
+                                    }
                                   },
                                 ),
                               ),

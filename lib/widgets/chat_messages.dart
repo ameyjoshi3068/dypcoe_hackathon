@@ -19,9 +19,27 @@ class ChatMessages extends StatelessWidget {
   final ChatProvider chatProvider;
 
   Disease getDisease() {
-    final diseaseJson = chatProvider.inChatMessages.last.message.toString();
-    final disease = Disease.fromJson(jsonDecode(diseaseJson));
-    return disease;
+    try {
+      final diseaseJson = chatProvider.inChatMessages.last.message.toString();
+      final disease = Disease.fromJson(jsonDecode(diseaseJson));
+      return disease;
+    } catch (e) {
+      print('Image Produced Invalid Results: $e   ');
+      return Disease(
+        url: '',
+        identification: Identification(
+          name: 'Invalid Image',
+          description: 'Invalid Image',
+          symptoms: [],
+          severity: '',
+          treatment: Treatment(
+            prevention: [],
+            chemical: [],
+            biological: [],
+          ),
+        ),
+      );
+    }
   }
 
   @override
