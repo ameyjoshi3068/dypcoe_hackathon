@@ -1,343 +1,57 @@
 {
-  "access_token": "ZyLrk9ncwD1s9sR",
-  "model_version": "crop_health:1.2.1",
-  "custom_id": null,
-  "input": {
-    "images": [
-      "https://crop.kindwise.com/media/images/874a9d7bbc884f6889191fc6f2333d2e.jpg"
+  "url": "https://privatebucketnodejs.s3.ap-south-1.amazonaws.com/uploads/user-uploads/scaled_sunflower_disease.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAWFIPSW3TWKGTUJVH%2F20250222%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20250222T213611Z&X-Amz-Expires=3600&X-Amz-Signature=141ac4dfc37bca98dfa54cdb9f85d283a37e856cc549765e836145b0fb23a9e5&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+  "identification": {
+    "name": "dectes stem borer",
+    "description": "Dectes texanus, commonly known as the Dectes Stem Borer, is a highly invasive insect pest found in North  America, particularly the Great Plains region. It belongs to the long-horned beetle family, Cerambycidae. The major host plants for this pest are soybeans, sunflowers and other crops like sesame and Jerusalem artichoke, making it a serious threat to agricultural crops. Its adult form is gray to black in color, and larvae are creamy white in color with a dark head capsule. The Dectes Stem Borer commonly lays their eggs on the leaves of host plants; upon hatching, the larvae bores into the stems to feed, causing significant damage. It is especially problematic during the late vegetative and reproductive stages of plant growth. The severity of this infestation often varies depending on environmental conditions.",
+    "symptoms": [
+      {
+        "Stem breakage": " Plants may illustrate stem breakage at a higher level than normal, which is a result of the pest weakening the stem from the inside out."
+      },
+      {
+        "Bore holes in stem": " Plant stems often show tiny hole marks, which are the entry and exit points of pests."
+      },
+      {
+        "Yellowing of leaves": " The plant may show leaf yellowing, typically a sign of nutrient deficiency, which in this case might be due to damage to the stem which affects transportation of nutrients and moisture."
+      },
+      {
+        "Crop yield reduction": " A severe infestation of Dectes Texanus can lead to significant reduction in crop yield due to damage caused to the plants."
+      },
+      {
+        "Vigorous plant wilting": " The plant attacked by Dectes Texanus usually exhibits wilting symptoms due to stem boring that hinders nutrient transport."
+      },
+      {
+        "Presence of larvae in stems": " Upon inspection, larvae of Dectes Texanus may be found inside the stems, confirming the pest's presence."
+      },
+      {
+        "Dead plants with cut off stems": " Typically, invaded plants may die with the stem severed near the soil surface. This is caused by the larval feeding which cuts through plant tissues."
+      },
+      {
+        "Pupal case sticking out of stem": " Pupal cases of Dectes Texanus might be noticed sticking out from the stem, indicating the completion of the larval stage inside the stem."
+      }
     ],
-    "datetime": "2025-02-22T10:58:38.087081+00:00",
-    "latitude": null,
-    "longitude": null,
-    "similar_images": true
-  },
-  "result": {
-    "disease": {
-      "suggestions": [
-        {
-          "id": "975a1b82ff48cb08",
-          "name": "Fusarium ear rot",
-          "probability": 0.6574,
-          "similar_images": [],
-          "details": {
-            "description": "Fusarium ear rot is a common fungal disease caused by the Fusarium verticillioides species. The condition primarily affects corn plants but can also potentially impact other grass species. The disease is prevalent in warm, humid regions and usually occurs when there is damage to the corn ear through insects, storm damage, or poor pollination. Fusarium ear rot is known for its severity, leading to considerable crop yield loss. This plant disease is especially harmful because it can produce mycotoxins such as fumonisin which can have harmful effects on human and animal health if contaminated grain is consumed. The disease is widespread and continuously threatens global corn production.",
-            "symptoms": {
-              "Deformed kernels": " Diseased kernels may appear shrunken, discolored, and may also be deformed.",
-              "Lower crop yield": " Prolonged infection and unchecked spread of the disease may result in reduced crop yields.",
-              "Starburst patterns": " Usually, the fungus forms a starburst pattern on the kernels. The affected grains are often scattered and appear to burst out from a central point.",
-              "Early infection signs": " Fusarium ear rot begins as small light brown spots or lesions on the outer husks.",
-              "Presence of mycotoxins": " Certain strains of Fusarium verticillioides can produce mycotoxins, which cannot be visually detected, but may be harmful if consumed.",
-              "Fusarium mold detection": " The disease may also be recognized by the presence of whitish to pinkish mold growth on or between the kernels.",
-              "Discoloration of kernels": " Infected kernels may show a white to pink or salmon color, noticeable when you peel back the husks."
-            },
-            "severity": "This plant disease is highly destructive, typically causing substantial damage to crops, particularly maize during its reproductive stage. The severity of the infliction varies with environmental factors and can result in significant yield loss. The pathogen produces mycotoxins that can decrease the quality of harvested grain and pose threats to animal and human health when infected crops are used for food or feed. Primary symptoms include a cottony white to pink mold growth on and between kernels. Beyond the direct crop damage, this disease can also prove challenging for farmers due to its potential for contamination in the food and feed industry.",
-            "spreading": "This plant disease primarily spreads through maize kernels or corn seeds infected with the disease, as well as through airborne spores that can fly with the wind and infect new plants. The speed of spreading can be quite fast, especially in the presence of optimum conditions including high humidity, high temperature, and presence of insect damage in the field. In addition, the occurrence of moderate to heavy rainfall shortly after silking period also significantly accelerates the disease transmission.",
-            "treatment": {
-              "prevention": [
-                "Plant Resistant Varieties: Opt for plant varieties that are more resistant to fusarium ear rot.",
-                "Rotate Crops: Regularly rotate crops to interrupt the life cycle of the fungus.",
-                "Proper Field Hygiene: Clean and disinfect farming tools to avoid cross-contamination.",
-                "Correct Use of Fertilizer: Over-fertilization can lead to an increase in fungal diseases.",
-                "Optimal Watering: Avoid over-watering to reduce fungal growth."
-              ],
-              "chemical treatment": [
-                "Application of Fungicides: Apply systemic fungicides such as tebuconazole to infected plants.",
-                "Use of Sterol Biosynthesis Inhibitors: Apply chemicals that halt the fungi's growth and reproduction.",
-                "Foliar Spray: Spray strobilurin fungicides to control fungal growth.",
-                "Soil Fumigation: Implement the use of methyl bromide or chloropicrin.",
-                "Use of Copper-based Fungicides: These can be used but are the least preferred due to potential harm to the environment."
-              ],
-              "biological treatment": [
-                "Application of Biocontrol Agents: Apply natural enemies such as Trichoderma species, known for its anti-fungal properties.",
-                "Introduce Archaea: Use Methanobrevibacter smithii to enhance plant disease resistance.",
-                "Use of Bacterial Antagonists: Apply the commonly used Pseudomonas chlororaphis and Bacillus subtilis.",
-                "Apply beneficial fungi: Use arbuscular mycorrhizal fungi to help in disease suppression.",
-                "Inoculation with Endophytic bacteria: These bacteria help to enhance the plant's natural defense mechanism."
-              ]
-            },
-            "language": "en\n",
-            "entity_id": "975a1b82ff48cb08"
-          },
-          "scientific_name": "Fusarium verticillioides"
-        },
-        {
-          "id": "073fc630848abeef",
-          "name": "moths",
-          "probability": 0.2149,
-          "similar_images": [
-            {
-              "id": "e4c1aa23bee93f8ef5c709079ec86166123362e9",
-              "url": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/e4c/1aa23bee93f8ef5c709079ec86166123362e9.jpg",
-              "license_name": "CC BY 3.0",
-              "license_url": "https://creativecommons.org/licenses/by/3.0/",
-              "citation": "Whitney Cranshaw, Colorado State University",
-              "similarity": 0.502,
-              "url_small": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/e4c/1aa23bee93f8ef5c709079ec86166123362e9.small.jpg"
-            },
-            {
-              "id": "2a6861f892c20f0f9acdc7d2ca95d2d8ab525056",
-              "url": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/2a6/861f892c20f0f9acdc7d2ca95d2d8ab525056.jpeg",
-              "license_name": "CC BY 3.0",
-              "license_url": "https://creativecommons.org/licenses/by/3.0/",
-              "citation": "Michael Hinczewski",
-              "similarity": 0.475,
-              "url_small": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/2a6/861f892c20f0f9acdc7d2ca95d2d8ab525056.small.jpeg"
-            }
-          ],
-          "details": {
-            "description": "Noctuidae, commonly known as moths, are a family of insects that are considered significant plant pests. They have a reputation for being particularly harmful due to their large numbers and wide range of plant hosts. The Larvae of these moths are particularly destructive, consuming different parts of various plant species, thereby affecting plant health and crop yields. A multitude of agriculture and horticulture crops, ornamental plants, and forest trees are among their favorite targets. The prevalence of these pests greatly depends on the environmental conditions and the availability of host plants. If unchecked, a severe infestation of moths can cause substantial economic losses in the agriculture sector. Despite their harmful reputation, it's important to note that not all noctuidae are considered harmful, and some species are in fact essential pollinators.",
-            "symptoms": {
-              "Fecal pellets": " Noticeable fecal pellets around the plant area is another sign that the plant might be infested by noctuidae.",
-              "Stunted growth": " The constant feeding on the leaves and stems can inhibit the plant's growth due to insufficient access to nutrients and light.",
-              "Presence of moths": " Seeing noctuidae in their adult form, moths, frequently around the plants could be indicative of a noctuidae infestation.",
-              "Node and root damage": " Underground noctuidae larvae can attack the plant's root system, causing significant damage to the nodes and roots, which further leads to a wilting plant.",
-              "Visible larvae or eggs": " The presence of noctuidae larvae or their eggs on the plant is a clear symptom of an infestation. The larvae are typically found on the underside of the leaves, and the eggs may be in clusters or singly spread over the plant.",
-              "Damaged leaves and stems": " Noctuidae larvae, also known as cutworms, feed on the leaves, stems, and roots of plants, causing visible damage such as holes, yellowing, and wilting.",
-              "Visible damage on fruits and flowers": " Fruits and flowers of infested plants may show signs of damage, such as holes and discoloration, as noctuidae larvae sometimes feed on these parts too."
-            },
-            "severity": "Noctuidae, commonly known as moths, are a severe plant pest known to cause significant damage to various crop stages, particularly during the flowering and fruiting stages. They can devastate plants by feeding on both the foliage and the fruits, leading to a drastic decrease in crop yield and quality. While the individual damage caused by a single moth might appear insignificant, their high reproductive rate and wide host range make them a substantial economic threat in many agricultural systems. They are especially dangerous to plants because they feed at night, making early detection and control challenging.",
-            "spreading": "The spread of noctuidae, or moths, largely occurs through their mobility, with adult moths able to fly long distances, thereby infesting new areas. This can happen quite rapidly, especially when conditions are favorable. These pests thrive in environments with abundant food sources, primarily consisting of various types of plants including crops, and in warm conditions, considering their activity is primarily during the night. Therefore, the spread could be faster in agricultural areas during the warmer months.",
-            "treatment": {
-              "prevention": [
-                "Regular Inspection: Check plants regularly to catch the early signs of an infestation.",
-                "Crop Rotation: Change the positioning of plants each year to disrupt the lifecycle of pests.",
-                "Cover crops: Use crop coverings during susceptible periods to prevent moth infestation.",
-                "Maintain Garden Hygiene: Keep the area around your plants clean to remove potential breeding sites for pests.",
-                "Reduce Night-time Lighting: Limit the use of outdoor lights during night as moths are attracted to light, which may reduce their overall population around the garden."
-              ],
-              "chemical treatment": [
-                "Pyrethrin Spray: Use a ready-to-use pyrethrin spray, a natural insecticide extracted from Chrysanthemum flowers, on infected plants.",
-                "Apply Synthetic Insecticides: Spray synthetic insecticides like permethrin on affected plants to kill moth larvae.",
-                "Use of Pheromone Traps: Set up pheromone traps that attract and kill male moths, disrupting their reproductive cycle.",
-                "Neem Oil Application: Apply neem oil spray on plants which has a dual effect of repelling and killing moth larvae.",
-                "Insecticidal Soap: Use insecticidal soap, which is effective against adult moths when directly sprayed on them."
-              ],
-              "biological treatment": [
-                "Introduction of Natural Predators: Invite birds, bats and parasitic insects by creating a garden-friendly habitat for them, as they naturally predate on moths.",
-                "Use of Bacterial Pesticides: Apply Bacillus thuringiensis (Bt), a natural bacterium harmful to noctuid moth caterpillars, on the infected plants.",
-                "Implement Trichogramma Wasps: Release Trichogramma wasps into your garden, as they are parasites of moth eggs.",
-                "Utilize Nematodes: Apply beneficial nematodes to the soil, because these microscopic worms kill moth larvae.",
-                "Employ Green Lacewings: Introduce green lacewings; their larvae feed on egg masses reducing next generation of moths."
-              ]
-            },
-            "language": "en\n",
-            "entity_id": "073fc630848abeef"
-          },
-          "scientific_name": "Noctuidae"
-        },
-        {
-          "id": "ce3be796d2200fa4",
-          "name": "Diplodia ear rot",
-          "probability": 0.0296,
-          "similar_images": [
-            {
-              "id": "c36a6ee7111d71567b02b990c4f0dffa96a84596",
-              "url": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/c36/a6ee7111d71567b02b990c4f0dffa96a84596.jpg",
-              "license_name": "CC BY 3.0",
-              "license_url": "https://creativecommons.org/licenses/by/3.0/",
-              "citation": "Clemson University - USDA Cooperative Extension Slide Series",
-              "similarity": 0.607,
-              "url_small": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/c36/a6ee7111d71567b02b990c4f0dffa96a84596.small.jpg"
-            },
-            {
-              "id": "13f4e942eb493089e19796bfb61f88a1fe218983",
-              "url": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/13f/4e942eb493089e19796bfb61f88a1fe218983.jpg",
-              "license_name": "CC BY 3.0",
-              "license_url": "https://creativecommons.org/licenses/by/3.0/",
-              "citation": "Annie Weissman",
-              "similarity": 0.532,
-              "url_small": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/13f/4e942eb493089e19796bfb61f88a1fe218983.small.jpg"
-            }
-          ],
-          "details": {
-            "description": "Diplodia Ear Rot is a plant disease caused by the fungus Stenocarpella maydis. It is predominantly a problem in maize crops, and can be particularly severe in warm, wet conditions which provide an ideal environment for the pathogen to thrive. The disease can be spread within a field through wind and rain splashes, with the fungus overwintering on crop debris. Infected seeds may also contribute to its spread. Notably, the severity of this disease varies with environmental conditions and the susceptibility of the host crop variety. Diplodia Ear Rot negatively impacts the yield and quality of affected crops.",
-            "symptoms": {
-              "Ear decay": " In severe cases, the Diplodia ear rot can result in total decay of the ear, leaving behind only the husks and the ear cob.",
-              "Darkened kernel": " Infected kernels are usually dark in color, brown to red-brown to black due to the fungal infection.",
-              "Missing kernels": " The disease might also result in missing kernels, especially near the base of the ear.",
-              "Shrivelled kernels": " The disease infects the maize kernels, causing them to shrivel and appear lightweight and discolored.",
-              "White mold on cobs": " Diplodia ear rot is characterized by the presence of a white or gray mold developing on the ear, starting from the base of the cob.",
-              "Reduced grain quality": " The disease leads to a considerable decrease in the quality of the grain, causing the yield to become unfit for consumption or sale.",
-              "Fungal growth on husks": " Diplodia ear rot can cause the husks to become bleached and may have visible fluffy white to grayish-brown fungal growth.",
-              "Damage progressed upwards": " The disease usually starts at the base of the ear and progresses upward, engulfing entire ears in severe infections.",
-              "Small black specks on kernels": " Diplodia ear rot also results in small, black pycnidia (fungal structures), which may be visible on the surface of infected kernels."
-            },
-            "severity": "This plant disease is pretty severe and can cause significant yield loss, especially in conditions of high humidity or when the crop undergoes stress due to other diseases or insect damage. It is particularly harmful during the late maturity stages of the plant. More prominently, it's not just the live plants that are affected but also stored crops, leading to drastic losses post-harvest. It's classified as a major field and storage pathogen, making it extremely dangerous to crops.",
-            "spreading": "The disease, mainly associated with maize, spreads via airborne spores or infected crop residue left in the field from previous seasons. It can potentially spread rapidly as its spores are disseminated by the wind, insects, or rain splash. Its propagation is favored by wet and humid conditions, particularly when these coincide with the maize flowering period. The disease prevalence is also higher in warm, temperate climates, but it can occur in diverse geographical locations, consequent upon favorable environmental conditions.",
-            "treatment": {
-              "prevention": [
-                "Regular field monitoring: Regularly monitor fields and inspect plants for early signs of infection.",
-                "Certified seeds: Only plant certified disease-free seeds.",
-                "Crop rotation: Practice crop rotation to minimize the buildup of fungus in the soil.",
-                "Optimal planting time: Plant seeds during optimal weather conditions to ensure strong plant health and resilience against disease.",
-                "Proper storage practices: Store harvested corn in cool, dry conditions to prevent fungal development."
-              ],
-              "chemical treatment": [
-                "Fungicide application: Apply appropriate fungicides as soon as symptoms are noted, to prevent the disease from spreading.",
-                "Spraying copper-based compounds: Regularly spray the infected plants with copper-based compounds to hinder fungal growth.",
-                "Seed treatment: Treat seeds with Azoxystrobin or other recommended fungicides before planting.",
-                "Solvent extraction: Use solvent extraction to reduce fungal concentrations before processing crops.",
-                "Post-harvest fumigation: Fumigate the harvested corn to reduce contamination."
-              ],
-              "biological treatment": [
-                "Beneficial microbial introduction: Add beneficial microbes to the soil to naturally combat the spread of stenocarpella maydis.",
-                "Crop residue management: Exercise agronomic practices like crop rotation and tillage to manage crop residues and reduce fungal infection.",
-                "Soil solarization: Use solarization to heat the soil and reduce the number of disease pathogens.",
-                "Biologically resistant strains: Plant biologically resistant strains of corn to reduce the chance of diplodia ear rot infection.",
-                "Use of biocontrol agents: Employ biocontrol agents like Trichoderma spp. to control the disease."
-              ]
-            },
-            "language": "en\n",
-            "entity_id": "ce3be796d2200fa4"
-          },
-          "scientific_name": "Stenocarpella maydis"
-        },
-        {
-          "id": "4ed9e0f655292fbc",
-          "name": "European corn borer",
-          "probability": 0.0277,
-          "similar_images": [
-            {
-              "id": "50aa43abd123b45be30a6937d962cab13b896bfd",
-              "url": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/50a/a43abd123b45be30a6937d962cab13b896bfd.jpg",
-              "license_name": "CC BY 3.0",
-              "license_url": "https://creativecommons.org/licenses/by/3.0/",
-              "citation": "Jan Samanek, Phytosanitary Administration",
-              "similarity": 0.645,
-              "url_small": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/50a/a43abd123b45be30a6937d962cab13b896bfd.small.jpg"
-            },
-            {
-              "id": "e59e0e401b56f61b65baec35de2b49cb89deb800",
-              "url": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/e59/e0e401b56f61b65baec35de2b49cb89deb800.jpg",
-              "license_name": "CC BY 3.0",
-              "license_url": "https://creativecommons.org/licenses/by/3.0/",
-              "citation": "University of Georgia  , University of Georgia",
-              "similarity": 0.478,
-              "url_small": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/e59/e0e401b56f61b65baec35de2b49cb89deb800.small.jpg"
-            }
-          ],
-          "details": {
-            "description": "The Ostrinia nubilalis, commonly known as the European corn borer, is a significant pest species prevalent in Europe and North America. This tiny moth is a notorious pest of several agricultural crops, most notably corn but also affecting peppers, beans, and others. Its larvae, which are the damaging stage of the pest, tunnel into the stems and stalks of plants, causing notable harm and yield loss. The pest is nocturnal, with females laying their spherical, white eggs on the underside of leaves. The severity of the infestation by the European corn borer largely depends on factors such as the pest population in a given year and the time of crop planting. ",
-            "symptoms": {
-              "Broken stems": " The burrowing of the larvae weakens the plant's stem, causing it to break or fall over, especially during windy conditions.",
-              "Damaged leaves": " The European corn borer typically chews on the leaves of the plant, causing visible holes and damaged areas.",
-              "Frass presence": " The pest leaves behind a waste product known as 'frass,' small granules similar in appearance to sawdust, around areas of the plant it has infested.",
-              "Stunted growth": " The pest targets the young shoots and buds, stunting the overall growth of the plant and reducing its vigor.",
-              "Emergence holes": " Adult borers create holes when they emerge from the plant stalks, another common symptom indicating the presence of this pest.",
-              "Reduction in yield": " Infestation by the European corn borer will inevitably result in a reduced plant yield, as the pest damages the structure and impedes the plant’s ability to absorb nutrients.",
-              "Bore holes in stalks": " The larvae, after initially feeding on leaves, eventually bore into the stalks, creating noticeable holes and tunnels.",
-              "Damaged ears of corn": " In corn plants specifically, the European corn borer attacks the ears of corn by boring into them, leading to visible damage and reducing yield."
-            },
-            "severity": "This pest is particularly harmful to corn as it can damage all growth stages, but is the most destructive during the whorl stage. It burrows into the plant and directly affects the yield by reducing the weight and size of the ears of corn. Moreover, the infestation can also result in stalk breakage and ear drop, thus jeopardizing the entire crop, leading to massive economic losses for farmers. This pest is also resilient and can survive harsh winters, proving difficult to completely eradicate.",
-            "spreading": "This particular plant pest typically spreads via flight during its moth stage, making containment challenging. It can rapidly infest new areas, capable of spreading up to 25 miles in a single generation depending on wind conditions. Its spread is favored by warm temperatures and the availability of host crops like corn. Abundant rainfall may also benefit the pest by providing favorable conditions for egg laying and larval development.",
-            "treatment": {
-              "prevention": [
-                "Plant Resistant Varieties: Use corn varieties that are resistant to European corn borer.",
-                "Crop Rotation: Practice crop rotation to interrupt the life cycle of the pest.",
-                "Regular Monitoring: Regularly inspect corn plants for early signs of infestation to control the pest efficiently.",
-                "Cleanliness: Keep the garden or field clean and free from crop residue as they can harbor the pests.",
-                "Preventative Spraying: Apply preventative chemical treatments before the pest has a chance to establish."
-              ],
-              "chemical treatment": [
-                "Apply Pesticides: Use commercially available pesticides specific for corn borers following manufacturer's instructions.",
-                "Pyrethroid Insecticides: Spray pyrethroid insecticides that are effective for European corn borer control.",
-                "Carbamate Insecticides: Use carbamate insecticides, which have proved successful in managing European corn borer populations.",
-                "Organophosphates: Apply organophosphate insecticides targeted at the pests during their most vulnerable stage - larva.",
-                "Synthetic Pesticides: Use synthetic pesticides that can control the European corn borer when natural and organic methods are ineffective."
-              ],
-              "biological treatment": [
-                "Introduce Natural Predators: Encourage beneficial insects and birds in your garden that feed on European corn borers.",
-                "Use Bacillus thuringiensis: Apply Bacillus thuringiensis, a bacterium that naturally kills the larvae of the pest, on affected plants.",
-                "Employ Parasitic Wasps: Release Trichogramma wasps on corn fields as they lay their eggs on the eggs of the European corn borer.",
-                "Use Pathogen Beauveria bassiana: Apply this fungi, that can infect and kill the European Corn Borer, to corn plants.",
-                "Adopt Integrated Pest Management (IPM): Implement the use of IPM which combines multiple biological control methods for effective results."
-              ]
-            },
-            "language": "en\n",
-            "entity_id": "4ed9e0f655292fbc"
-          },
-          "scientific_name": "Ostrinia nubilalis"
-        },
-        {
-          "id": "c35556c0c67c0591",
-          "name": "healthy",
-          "probability": 0.0215,
-          "similar_images": [
-            {
-              "id": "0efc0f4cf48de33c31b1b96a6ce90dd22187ada3",
-              "url": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/0ef/c0f4cf48de33c31b1b96a6ce90dd22187ada3.jpeg",
-              "license_name": "CC0",
-              "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
-              "citation": "Ezequiel Marquez",
-              "similarity": 0.444,
-              "url_small": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/0ef/c0f4cf48de33c31b1b96a6ce90dd22187ada3.small.jpeg"
-            },
-            {
-              "id": "954c6d21405a5e786f122cf589ccb7f6c71becff",
-              "url": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/954/c6d21405a5e786f122cf589ccb7f6c71becff.jpeg",
-              "license_name": "CC0",
-              "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
-              "citation": "Gerardo Benjamín Torres Cantú",
-              "similarity": 0.433,
-              "url_small": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/954/c6d21405a5e786f122cf589ccb7f6c71becff.small.jpeg"
-            }
-          ],
-          "details": {
-            "description": null,
-            "symptoms": null,
-            "severity": null,
-            "spreading": null,
-            "treatment": null,
-            "language": "en\n",
-            "entity_id": "c35556c0c67c0591"
-          },
-          "scientific_name": "healthy"
-        }
-      ]
-    },
-    "is_plant": {
-      "binary": true,
-      "threshold": 0.5,
-      "probability": 0.8762666
-    },
-    "crop": {
-      "suggestions": [
-        {
-          "id": "9f2cfa1d346260e0",
-          "name": "corn",
-          "probability": 0.9448,
-          "similar_images": [
-            {
-              "id": "22292a589e5b959d6f22c04cc4d16e5ee31dae10",
-              "url": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/222/92a589e5b959d6f22c04cc4d16e5ee31dae10.jpeg",
-              "license_name": "CC BY-SA 4.0",
-              "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-              "citation": "Manu Pacha",
-              "similarity": 0.074,
-              "url_small": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/222/92a589e5b959d6f22c04cc4d16e5ee31dae10.small.jpeg"
-            },
-            {
-              "id": "5ae5d1a7f15dcdecfc466b712ce09c9e7b840961",
-              "url": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/5ae/5d1a7f15dcdecfc466b712ce09c9e7b840961.jpeg",
-              "license_name": "CC BY 4.0",
-              "license_url": "https://creativecommons.org/licenses/by/4.0/",
-              "citation": "Francesca Torre",
-              "similarity": 0.057,
-              "url_small": "https://crop-health.ams3.cdn.digitaloceanspaces.com/similar_images/1/5ae/5d1a7f15dcdecfc466b712ce09c9e7b840961.small.jpeg"
-            }
-          ],
-          "details": {
-            "language": "en\n",
-            "entity_id": "9f2cfa1d346260e0"
-          },
-          "scientific_name": "Zea mays"
-        }
+    "severity": "This plant pest is extremely damaging especially to soybean crops, typically attacking during the plant's vegetative and reproductive stages. It bores into the main stem, inhibiting nutrient and water transportation, causing wilting, lodging, and death of the plant. Its potential for extensive damage makes it a severe threat to agricultural industries, particularly in regions where soybeans are a major crop. This pest can significantly reduce yield and crop quality, negatively impacting the financial return for farmers.",
+    "treatment": {
+      "prevention": [
+        "Regular inspections: Conduct regular inspections of plants to detect early signs of infestation.",
+        "Pruning: Prune and burn infested stems to prevent the spread of the pests.",
+        "Clean farming: Maintain proper cleanliness and remove dead plant debris which could act as breeding sites.",
+        "Crop rotation: Practice crop rotation which disrupts the lifecycle of the stem borer.",
+        "Use of barriers: Install physical barriers like netting to prevent the pests from laying eggs on the plants."
+      ],
+      "chemical": [
+        "Insecticide spray: Apply an insecticide specifically designed to kill the Dectes Stem Borer.",
+        "Systemic Insecticides: Use systemic insecticides that penetrate the plant system and affect the pests feeding on them.",
+        "Insecticidal soaps: Apply insecticidal soaps that can suffocate the pest on contact.",
+        "Botanical Pesticides: Apply botanically-derived pesticides such as Pyrethrin or Rotenone that can effectively control the pest.",
+        "Dusting of Diatomaceous Earth: Dust plants with Diatomaceous Earth to cause desiccation and death of these borers."
+      ],
+      "biological": [
+        "Introduction of predators: Introduce insects like Ladybugs, Lacewings, and Parasitic Wasps that are natural predators of the Dectes Stem Borer.",
+        "Usage of pathogens: Inject Beauveria Bassiana fungus, a natural pathogen to pests, into the plant which is effective on the stem borer.",
+        "Release of Parasitic Nematodes: Utilize parasitic nematodes such as Steinernema and Heterorhabditis which can naturally control the pest.",
+        "Intercropping: Use intercropping techniques with plants that deter Dectes Stem Borer as a biological control method.",
+        "Installation of bird feeders: Install bird feeders as birds can eat the pests, offering a biological method of control."
       ]
     }
-  },
-  "status": "COMPLETED",
-  "sla_compliant_client": true,
-  "sla_compliant_system": true,
-  "created": 1740221918.087081,
-  "completed": 1740221918.589339
+  }
 }

@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:chatbotapp/models/disease.dart';
+import 'package:chatbotapp/widgets/disease_details_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:chatbotapp/models/message.dart';
 import 'package:chatbotapp/providers/chat_provider.dart';
@@ -14,6 +18,12 @@ class ChatMessages extends StatelessWidget {
   final ScrollController scrollController;
   final ChatProvider chatProvider;
 
+  Disease getDisease() {
+    final diseaseJson = chatProvider.inChatMessages.last.message.toString();
+    final disease = Disease.fromJson(jsonDecode(diseaseJson));
+    return disease;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -22,7 +32,9 @@ class ChatMessages extends StatelessWidget {
       itemBuilder: (context, index) {
         // compare with timeSent before showing the list
         final message = chatProvider.inChatMessages[index];
-        return MyMessageWidget(message: message);
+        return message.role.name == Role.user.name
+            ? MyMessageWidget(message: message)
+            : DiseaseDetailsWidget(disease: getDisease());
       },
     );
   }

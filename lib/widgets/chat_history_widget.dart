@@ -18,17 +18,13 @@ class ChatHistoryWidget extends StatelessWidget {
     return Card(
       child: ListTile(
         contentPadding: const EdgeInsets.only(left: 10.0, right: 10.0),
-        leading: const CircleAvatar(
+        leading: CircleAvatar(
           radius: 30,
-          child: Icon(CupertinoIcons.chat_bubble_2),
+          child: Image.network(chat.response.toString().split('"')[3]),
         ),
         title: Text(
           chat.prompt,
           maxLines: 1,
-        ),
-        subtitle: Text(
-          chat.response,
-          maxLines: 2,
         ),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () async {

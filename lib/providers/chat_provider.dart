@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
-import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,12 +11,12 @@ import 'package:chatbotapp/hive/settings.dart';
 import 'package:chatbotapp/hive/user_model.dart';
 import 'package:chatbotapp/models/message.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:uuid/uuid.dart';
-import 'package:http/http.dart' as http;
 
 class ChatProvider extends ChangeNotifier {
   // list of messages
@@ -211,6 +209,7 @@ class ChatProvider extends ChangeNotifier {
     final userMessage = Message(
       messageId: userMessageId.toString(),
       chatId: chatId,
+      role: Role.user,
       message: StringBuffer(message),
       imagesUrls: imagesUrls,
       timeSent: DateTime.now(),
@@ -223,6 +222,8 @@ class ChatProvider extends ChangeNotifier {
     if (currentChatId.isEmpty) {
       setCurrentChatId(newChatId: chatId);
     }
+    setLoading(value: true);
+    notifyListeners();
 
     try {
       // Future<http.Response> response = http.post(
@@ -253,17 +254,23 @@ class ChatProvider extends ChangeNotifier {
                   chatId: chatId,
                   message: StringBuffer(response.body),
                   imagesUrls: imagesUrls,
-                  timeSent: DateTime.now());
+                  timeSent: DateTime.now(),
+                  role: Role.assistant);
               saveMessagesToDB(
                 chatID: chatId,
                 userMessage: userMessage,
                 assistantMessage: assistantMessage1,
                 messagesBox: messagesBox,
               );
+              setLoading(value: false);
+              notifyListeners();
             });
           })
           .catchError((err) => print('error : ' + err.toString()))
-          .whenComplete(() {});
+          .whenComplete(() {
+            setLoading(value: false);
+            notifyListeners();
+          });
     } catch (e) {
       log(e.toString());
     }
@@ -395,7 +402,11 @@ class ChatProvider extends ChangeNotifier {
       await setInChatMessages(chatId: chatId);
 
       for (var message in inChatMessages) {
-        history.add(Content.text(message.message.toString()));
+        if (message.role == Role.user) {
+          history.add(Content.text(message.message.toString()));
+        } else {
+          history.add(Content.model([TextPart(message.message.toString())]));
+        }
       }
     }
 
