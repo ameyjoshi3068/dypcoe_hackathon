@@ -1,3 +1,5 @@
+import 'package:chatbotapp/models/comment.dart';
+import 'package:chatbotapp/widgets/comments_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -27,6 +29,9 @@ class CommunityMessage {
   @HiveField(7)
   int dislikes;
 
+  @HiveField(8)
+  final List<Comment> comments;
+
   CommunityMessage({
     required this.title,
     required this.cropImage,
@@ -36,6 +41,7 @@ class CommunityMessage {
     required this.profileImage,
     this.likes = 0,
     this.dislikes = 0,
+    this.comments = const [],
   });
 }
 
@@ -51,6 +57,22 @@ class CommunityProvider with ChangeNotifier {
       profileImage: "assets/profiles/rajesh.jpg",
       likes: 5,
       dislikes: 0,
+      comments: [
+        Comment(
+          userName: "Dr. Singh",
+          userImage: "assets/profiles/john.jpg",
+          text:
+              "This looks like leaf rust. Apply fungicide immediately and ensure proper ventilation.",
+          timestamp: DateTime(2024, 3, 15, 10, 30),
+        ),
+        Comment(
+          userName: "Maria Garcia",
+          userImage: "assets/profiles/anita.jpg",
+          text:
+              "I had the same issue last season. Copper-based fungicides worked well for me.",
+          timestamp: DateTime(2024, 3, 15, 11, 45),
+        ),
+      ],
     ),
     CommunityMessage(
       title: "Tomato Plants Wilting Rapidly",
@@ -62,6 +84,15 @@ class CommunityProvider with ChangeNotifier {
       profileImage: "assets/profiles/anita.jpg",
       likes: 8,
       dislikes: 1,
+      comments: [
+        Comment(
+          userName: "Plant Expert",
+          userImage: "assets/profiles/deepak.jpg",
+          text:
+              "Classic symptoms of late blight. Remove affected leaves and treat with appropriate fungicide.",
+          timestamp: DateTime(2024, 3, 14, 15, 20),
+        ),
+      ],
     ),
     CommunityMessage(
       title: "Sunflower Leaves Developing White Spots",
@@ -73,6 +104,22 @@ class CommunityProvider with ChangeNotifier {
       profileImage: "assets/profiles/john.jpg",
       likes: 10,
       dislikes: 2,
+      comments: [
+        Comment(
+          userName: "Garden Master",
+          userImage: "assets/profiles/garden_master.jpg",
+          text:
+              "This could be powdery mildew. Try neem oil solution as an organic treatment.",
+          timestamp: DateTime(2024, 3, 13, 9, 15),
+        ),
+        Comment(
+          userName: "Sarah Johnson",
+          userImage: "assets/profiles/emily.jpg",
+          text:
+              "Make sure to improve air circulation around plants to prevent fungal issues.",
+          timestamp: DateTime(2024, 3, 13, 10, 30),
+        ),
+      ],
     ),
     CommunityMessage(
       title: "Apple Trees Affected by Scab",
@@ -127,6 +174,43 @@ class CommunityProvider with ChangeNotifier {
     }
     _messages[index].dislikes++;
     _dislikedMessages.add(index);
+    notifyListeners();
+  }
+
+  void showCommentsDialog(BuildContext context, int messageIndex) {
+    showDialog(
+      context: context,
+      builder: (context) => CommentsDialog(
+        message: _messages[messageIndex],
+        onAddComment: (String comment) {
+          addComment(messageIndex, comment);
+        },
+      ),
+    );
+  }
+
+  void addComment(int messageIndex, String commentText) {
+    final newComments = List<Comment>.from(_messages[messageIndex].comments)
+      ..add(Comment(
+        userName: 'Current User', // Replace with actual user name
+        userImage:
+            'assets/default_avatar.png', // Replace with actual user image
+        text: commentText,
+        timestamp: DateTime.now(),
+      ));
+
+    _messages[messageIndex] = CommunityMessage(
+      title: _messages[messageIndex].title,
+      cropImage: _messages[messageIndex].cropImage,
+      description: _messages[messageIndex].description,
+      senderName: _messages[messageIndex].senderName,
+      senderPlace: _messages[messageIndex].senderPlace,
+      profileImage: _messages[messageIndex].profileImage,
+      likes: _messages[messageIndex].likes,
+      dislikes: _messages[messageIndex].dislikes,
+      comments: newComments,
+    );
+
     notifyListeners();
   }
 }

@@ -101,6 +101,15 @@ class CommunityScreen extends StatelessWidget {
                           // Implement sharing logic here
                         },
                       ),
+                      IconButton(
+                        icon: const Icon(Icons
+                            .comment_outlined), // Using outlined icon for better visual
+                        onPressed: () {
+                          context
+                              .read<CommunityProvider>()
+                              .showCommentsDialog(context, index);
+                        },
+                      ),
                     ],
                   ),
                 ],
