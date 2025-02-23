@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:chatbotapp/screens/gemini_chat_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chatbotapp/hive/boxes.dart';
@@ -7,9 +8,14 @@ import 'package:chatbotapp/hive/settings.dart';
 import 'package:chatbotapp/providers/settings_provider.dart';
 import 'package:chatbotapp/widgets/build_display_image.dart';
 import 'package:chatbotapp/widgets/settings_tile.dart';
+import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+
+String apiKey = dotenv.get('GEMINI-API-KEY');
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -126,7 +132,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         // Theme
                         SettingsTile(
-                          // icon: Icons.light_mode,
                           icon: CupertinoIcons.sun_max,
                           title: 'Theme',
                           value: false,
@@ -137,6 +142,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               value: value,
                             );
                           },
+                        ),
+
+                        const SizedBox(height: 16.0),
+
+                        // Chat Button
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const GeminiChatScreen(),
+                              ),
+                            );
+                          },
+                          icon: const Icon(CupertinoIcons.chat_bubble_2_fill),
+                          label: const Text('Chat with Gemini'),
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
                         ),
                       ],
                     );
@@ -160,6 +190,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               value: value,
                             );
                           },
+                        ),
+
+                        const SizedBox(height: 16.0),
+
+                        // Chat Button
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const GeminiChatScreen(),
+                              ),
+                            );
+                          },
+                          icon: const Icon(CupertinoIcons.chat_bubble_2_fill),
+                          label: const Text('Use chatbot'),
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
                         ),
                       ],
                     );

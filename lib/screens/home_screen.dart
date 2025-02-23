@@ -17,8 +17,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // list of screens
   final List<Widget> _screens = [
-    const ChatHistoryScreen(),
     const ChatScreen(),
+    const ChatHistoryScreen(),
     const CommunityScreen(),
     const ProfileScreen(),
   ];
@@ -43,17 +43,20 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: (index) {
                 chatProvider.setCurrentIndex(newIndex: index);
                 chatProvider.pageController.jumpToPage(index);
+                if (index == 0) {
+                  chatProvider.prepareChatRoom(isNewChat: true, chatID: "");
+                }
               },
               unselectedItemColor: Theme.of(context).colorScheme.primary,
               items: const [
                 BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.chat_bubble),
+                  label: 'Upload',
+                ),
+                BottomNavigationBarItem(
                   icon: Icon(Icons.history),
                   // icon: Icon(CupertinoIcons.timelapse),
                   label: 'Crop History',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.chat_bubble),
-                  label: 'Upload',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.groups),

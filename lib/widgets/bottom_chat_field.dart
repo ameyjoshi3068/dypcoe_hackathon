@@ -50,11 +50,26 @@ class _BottomChatFieldState extends State<BottomChatField> {
   ];
 
   final List<String> cropItems = [
-    'Crop',
-    'Wheat',
-    'Rice',
-    'Corn',
-    // Add other crops as needed
+    "Rice",
+    "Wheat",
+    "Maize",
+    "Barley",
+    "Lentils",
+    "Beans",
+    "Soybean",
+    "Groundnut",
+    "Sunflower",
+    "Tomato",
+    "Potato",
+    "Onion",
+    "Brinjal (Eggplant)",
+    "Mango",
+    "Banana",
+    "Apple",
+    "Grapes",
+    "Cotton",
+    "Sugarcane",
+    "Coffee",
   ];
 
   String? selectedCrop;

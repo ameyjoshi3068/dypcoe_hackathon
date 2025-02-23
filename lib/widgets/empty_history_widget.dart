@@ -18,8 +18,8 @@ class EmptyHistoryWidget extends StatelessWidget {
             isNewChat: true,
             chatID: '',
           );
-          chatProvider.setCurrentIndex(newIndex: 1);
-          chatProvider.pageController.jumpToPage(1);
+          chatProvider.setCurrentIndex(newIndex: 0);
+          chatProvider.pageController.jumpToPage(0);
         },
         child: Container(
           decoration: BoxDecoration(

@@ -17,8 +17,13 @@ import 'package:path_provider/path_provider.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:convert';
 
 class ChatProvider extends ChangeNotifier {
+  void init() {
+    fetchNews();
+  }
+
   // list of messages
   final List<Message> _inChatMessages = [];
 
@@ -36,6 +41,8 @@ class ChatProvider extends ChangeNotifier {
 
   // loading bool
   bool _isLoading = false;
+
+  List<Map<String, dynamic>> newsItems = [];
 
   // getters
   List<Message> get inChatMessages => _inChatMessages;
@@ -441,6 +448,19 @@ class ChatProvider extends ChangeNotifier {
     if (!Hive.isAdapterRegistered(2)) {
       Hive.registerAdapter(SettingsAdapter());
       await Hive.openBox<Settings>(Constants.settingsBox);
+    }
+  }
+
+  Future<void> fetchNews() async {
+    try {
+      final response = await http
+          .get(Uri.parse('http://192.168.137.10:4000/get-agriculture-news'));
+      if (response.statusCode == 200) {
+        newsItems = List<Map<String, dynamic>>.from(jsonDecode(response.body));
+        notifyListeners();
+      }
+    } catch (e) {
+      log('Error fetching news: $e');
     }
   }
 }

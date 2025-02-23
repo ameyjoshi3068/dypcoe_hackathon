@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../models/disease.dart';
+import 'package:http/http.dart' as http;
 
 class DiseaseDetailsWidget extends StatelessWidget {
   final Disease disease;
@@ -15,7 +17,8 @@ class DiseaseDetailsWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _buildDescription(),
             const SizedBox(height: 16),
@@ -24,6 +27,15 @@ class DiseaseDetailsWidget extends StatelessWidget {
             _buildSymptoms(),
             const SizedBox(height: 16),
             _buildTreatments(),
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              onPressed: () => _showDosePredictionDialog(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 211, 236, 248),
+              ),
+              icon: const Icon(Icons.calculate),
+              label: const Text('Predict Dose'),
+            ),
           ],
         ),
       ),
@@ -37,12 +49,17 @@ class DiseaseDetailsWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              disease.identification.name.toUpperCase(),
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  disease.identification.name.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 8),
             Text(
@@ -216,6 +233,169 @@ class DiseaseDetailsWidget extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+
+  void _showDosePredictionDialog(BuildContext context) {
+    String growthStage = 'Seedling';
+    String fertilizerName = '';
+    double plotSize = 1.0;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Predict Medicine Dose'),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DropdownButtonFormField<String>(
+                      value: growthStage,
+                      decoration: const InputDecoration(
+                        labelText: 'Growth Stage',
+                      ),
+                      items: ['Seedling', 'Vegetative', 'Flowering', 'Maturity']
+                          .map((stage) => DropdownMenuItem(
+                                value: stage,
+                                child: Text(stage),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() => growthStage = value!);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      decoration: const InputDecoration(
+                        labelText: 'Fertilizer Name',
+                      ),
+                      onChanged: (value) {
+                        setState(() => fertilizerName = value);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.remove),
+                          onPressed: () {
+                            setState(() {
+                              if (plotSize > 0.5) plotSize -= 0.5;
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: Slider(
+                            value: plotSize,
+                            min: 0.5,
+                            max: 10.0,
+                            divisions: 19,
+                            label: '$plotSize Acres',
+                            onChanged: (value) {
+                              setState(() => plotSize = value);
+                            },
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.add),
+                          onPressed: () {
+                            setState(() {
+                              if (plotSize < 10.0) plotSize += 0.5;
+                            });
+                          },
+                        ),
+                        Text('${plotSize.toStringAsFixed(1)} Acres'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () => _predictDose(
+                    context,
+                    growthStage,
+                    fertilizerName,
+                    plotSize,
+                  ),
+                  child: const Text('Predict'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _predictDose(
+    BuildContext context,
+    String growthStage,
+    String fertilizerName,
+    double plotSize,
+  ) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.137.10:5000/doseprediction'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'crop_type': disease.identification.name.toLowerCase(),
+          'growth_stage': growthStage,
+          'fertilizer_name': fertilizerName,
+          'plot_size': '$plotSize Acres',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final result = jsonDecode(response.body);
+        Navigator.pop(context); // Close the input dialog
+        _showResultDialog(context, result);
+      } else {
+        throw Exception('Failed to predict dose');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
+      );
+    }
+  }
+
+  void _showResultDialog(BuildContext context, Map<String, dynamic> result) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Recommended Dose'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.science, color: Colors.blue),
+                title: const Text('Fertilizer'),
+                subtitle: Text(result['fertilizer']),
+              ),
+              ListTile(
+                leading: const Icon(Icons.scale, color: Colors.green),
+                title: const Text('Quantity'),
+                subtitle: Text(result['quantity']),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
